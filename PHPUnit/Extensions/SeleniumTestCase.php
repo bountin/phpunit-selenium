@@ -1086,7 +1086,13 @@ abstract class PHPUnit_Extensions_SeleniumTestCase extends PHPUnit_Framework_Tes
     {
         $this->restoreSessionStateAfterFailedTest();
 
-        $buffer  = 'Current URL: ' . $this->drivers[0]->getLocation() .
+        try {
+            $url = $this->drivers[0]->getLocation();
+        } catch (\Exception $__e) {
+            $url = '<Error while loading URL>';
+        }
+
+        $buffer  = 'Current URL: ' . $url .
                    "\n";
 
         if ($this->captureScreenshotOnFailure) {
